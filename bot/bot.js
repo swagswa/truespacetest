@@ -7,7 +7,7 @@ const token = '8446511797:AAGbqyRF_PHS5MYoCD3ItwZeSg1mbYMeU10';
 const bot = new TelegramBot(token, { polling: true });
 
 // URL веб-приложения
-const webAppUrl = 'http://localhost:3007';
+const webAppUrl = 'https://truespacetest.vercel.app';
 
 console.log('🤖 TrueSpace Bot запущен!');
 

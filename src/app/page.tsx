@@ -65,14 +65,14 @@ export default function TrueSpaceApp() {
   ]
 
   return (
-    <BeamsBackground intensity="strong" className="h-screen w-full max-w-sm mx-auto overflow-hidden flex flex-col relative">
+    <BeamsBackground intensity="strong" className="min-h-screen w-full max-w-sm mx-auto flex flex-col relative">
 
       {/* Header */}
       <motion.header 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="relative z-10 pt-16 pb-8 px-6"
+        className="relative z-10 pt-16 pb-8 px-6 flex-shrink-0"
       >
         <div className="text-center">
           <motion.div
@@ -99,7 +99,7 @@ export default function TrueSpaceApp() {
       </motion.header>
 
       {/* Menu Buttons */}
-      <div className="flex-1 px-6 pb-8 space-y-3 scrollbar-hide overflow-y-auto relative z-10">
+      <div className="flex-1 px-6 pb-8 space-y-3 relative z-10 touch-pan-y" style={{ WebkitOverflowScrolling: 'touch' }}>
         {menuItems.map((item, index) => {
           const IconComponent = item.icon
           return (
