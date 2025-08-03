@@ -11,6 +11,7 @@ import {
   ChevronRight
 } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { AuroraBackground } from '@/components/ui/aurora-background'
 
 export default function TrueSpaceApp() {
@@ -24,7 +25,8 @@ export default function TrueSpaceApp() {
       color: "#6366f1",
       bgColor: "bg-indigo-500/10",
       hoverBg: "bg-indigo-500/20",
-      shadowColor: "shadow-indigo-500/20"
+      shadowColor: "shadow-indigo-500/20",
+      href: "/ai-agents"
     },
     {
       title: "Графика и Видео с ИИ",
@@ -33,7 +35,8 @@ export default function TrueSpaceApp() {
       color: "#8b5cf6",
       bgColor: "bg-violet-500/10",
       hoverBg: "bg-violet-500/20",
-      shadowColor: "shadow-violet-500/20"
+      shadowColor: "shadow-violet-500/20",
+      href: "/graphics-ai"
     },
     {
       title: "No-code разработка",
@@ -42,7 +45,8 @@ export default function TrueSpaceApp() {
       color: "#f59e0b",
       bgColor: "bg-amber-500/10",
       hoverBg: "bg-amber-500/20",
-      shadowColor: "shadow-amber-500/20"
+      shadowColor: "shadow-amber-500/20",
+      href: "/no-code"
     },
     {
       title: "ИИ для начинающих",
@@ -51,7 +55,8 @@ export default function TrueSpaceApp() {
       color: "#10b981",
       bgColor: "bg-emerald-500/10",
       hoverBg: "bg-emerald-500/20",
-      shadowColor: "shadow-emerald-500/20"
+      shadowColor: "shadow-emerald-500/20",
+      href: "/ai-beginners"
     },
     {
       title: "Вебинары",
@@ -60,7 +65,8 @@ export default function TrueSpaceApp() {
       color: "#ef4444",
       bgColor: "bg-red-500/10",
       hoverBg: "bg-red-500/20",
-      shadowColor: "shadow-red-500/20"
+      shadowColor: "shadow-red-500/20",
+      href: "/webinars"
     }
   ]
 
@@ -100,74 +106,75 @@ export default function TrueSpaceApp() {
       </motion.header>
 
       {/* Menu Buttons */}
-      <div className="flex-1 px-4 pb-6 space-y-2.5 relative z-10 touch-pan-y" style={{ WebkitOverflowScrolling: 'touch' }}>
+      <div className="flex-1 px-4 pb-6 relative z-10 touch-pan-y" style={{ WebkitOverflowScrolling: 'touch' }}>
         {menuItems.map((item, index) => {
           const IconComponent = item.icon
           return (
-            <motion.button
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.4, 
-                delay: index * 0.08 + 0.2,
-                ease: "easeOut"
-              }}
-              whileTap={{ 
-                scale: 0.97,
-                transition: { duration: 0.1 }
-              }}
-              onPointerDown={() => setActiveButton(index)}
-              onPointerUp={() => setActiveButton(null)}
-              onPointerLeave={() => setActiveButton(null)}
-              className={`
-                glass-button w-full p-4 rounded-xl
-                transition-all duration-300 ease-out
-                relative overflow-hidden
-                ${activeButton === index 
-                  ? 'shadow-2xl' 
-                  : 'shadow-lg hover:shadow-xl'
-                }
-              `}
-              style={{
-                boxShadow: activeButton === index 
-                  ? `0 8px 25px -8px ${item.color}60`
-                  : '0 4px 15px -4px rgba(0,0,0,0.3)'
-              }}
-            >
-              <div className="flex items-center space-x-3">
-                <div 
-                  className={`
-                    flex items-center justify-center w-10 h-10 rounded-lg backdrop-blur-sm
-                    transition-all duration-300 ease-out
-                    ${activeButton === index 
-                      ? 'bg-white/25 shadow-lg' 
-                      : 'bg-white/10'
-                    }
-                  `}
-                >
-                  <IconComponent 
-                    className={`w-5 h-5 icon-stable ${
-                      activeButton === index ? 'text-white' : ''
+            <Link key={index} href={item.href} className={`block ${index < menuItems.length - 1 ? 'mb-6' : ''}`}>
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.4, 
+                  delay: index * 0.08 + 0.2,
+                  ease: "easeOut"
+                }}
+                whileTap={{ 
+                  scale: 0.97,
+                  transition: { duration: 0.1 }
+                }}
+                onPointerDown={() => setActiveButton(index)}
+                onPointerUp={() => setActiveButton(null)}
+                onPointerLeave={() => setActiveButton(null)}
+                className={`
+                  glass-button w-full p-4 rounded-xl
+                  transition-all duration-300 ease-out
+                  relative overflow-hidden
+                  ${activeButton === index 
+                    ? 'shadow-2xl' 
+                    : 'shadow-lg hover:shadow-xl'
+                  }
+                `}
+                style={{
+                  boxShadow: activeButton === index 
+                    ? `0 8px 25px -8px ${item.color}60`
+                    : '0 4px 15px -4px rgba(0,0,0,0.3)'
+                }}
+              >
+                <div className="flex items-center space-x-3">
+                  <div 
+                    className={`
+                      flex items-center justify-center w-10 h-10 rounded-lg backdrop-blur-sm
+                      transition-all duration-300 ease-out
+                      ${activeButton === index 
+                        ? 'bg-white/25 shadow-lg' 
+                        : 'bg-white/10'
+                      }
+                    `}
+                  >
+                    <IconComponent 
+                      className={`w-5 h-5 icon-stable ${
+                        activeButton === index ? 'text-white' : ''
+                      }`}
+                      style={{ color: activeButton === index ? undefined : item.color }}
+                    />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h3 className="font-semibold text-base sm:text-lg text-white tracking-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-neutral-200 text-xs sm:text-sm mt-0.5">
+                      {item.subtitle}
+                    </p>
+                  </div>
+                  <ChevronRight 
+                    className={`w-4 h-4 transition-all duration-200 ${
+                      activeButton === index ? 'text-white translate-x-1' : 'text-neutral-300'
                     }`}
-                    style={{ color: activeButton === index ? undefined : item.color }}
                   />
                 </div>
-                <div className="flex-1 text-left">
-                  <h3 className="font-semibold text-base sm:text-lg text-white tracking-tight">
-                    {item.title}
-                  </h3>
-                  <p className="text-neutral-200 text-xs sm:text-sm mt-0.5">
-                    {item.subtitle}
-                  </p>
-                </div>
-                <ChevronRight 
-                  className={`w-4 h-4 transition-all duration-200 ${
-                    activeButton === index ? 'text-white translate-x-1' : 'text-neutral-300'
-                  }`}
-                />
-              </div>
-            </motion.button>
+              </motion.button>
+            </Link>
           )
         })}
       </div>
