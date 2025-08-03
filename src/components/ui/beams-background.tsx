@@ -47,7 +47,8 @@ export function BeamsBackground({
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const beamsRef = useRef<Beam[]>([]);
     const animationFrameRef = useRef<number>(0);
-    const MINIMUM_BEAMS = 20;
+    // Уменьшаем количество лучей для лучшей производительности на мобильных
+    const MINIMUM_BEAMS = typeof window !== 'undefined' && window.innerWidth < 768 ? 8 : 15;
 
     useEffect(() => {
         const opacityMap = {
@@ -168,34 +169,31 @@ export function BeamsBackground({
     return (
         <div
             className={cn(
-                "relative min-h-screen w-full overflow-hidden bg-neutral-950",
+                "relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900",
                 className
             )}
         >
             <canvas
                 ref={canvasRef}
-                className="absolute inset-0"
+                className="absolute inset-0 opacity-60"
                 style={{ 
-                    filter: "blur(15px)",
-                    width: "150%",
+                    filter: "blur(10px)",
+                    width: "120%",
                     height: "100%",
-                    left: "-25%",
+                    left: "-10%",
                     top: "0"
                 }}
             />
 
             <motion.div
-                className="absolute inset-0 bg-neutral-950/5"
+                className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/10 to-transparent"
                 animate={{
-                    opacity: [0.05, 0.15, 0.05],
+                    opacity: [0.3, 0.6, 0.3],
                 }}
                 transition={{
-                    duration: 10,
+                    duration: 8,
                     ease: "easeInOut",
                     repeat: Number.POSITIVE_INFINITY,
-                }}
-                style={{
-                    backdropFilter: "blur(50px)",
                 }}
             />
 

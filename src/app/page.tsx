@@ -69,110 +69,98 @@ export default function TrueSpaceApp() {
 
       {/* Header */}
       <motion.header 
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="relative z-10 pt-16 pb-8 px-6 flex-shrink-0"
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="relative z-10 pt-12 pb-6 px-4 flex-shrink-0"
       >
         <div className="text-center">
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
+            initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mb-2 flex justify-center"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mb-3 flex justify-center"
           >
             <Image
               src="/Logo.svg"
               alt="TrueSpace Logo"
-              width={100}
-              height={100}
-              className="filter invert"
+              width={80}
+              height={80}
+              className="filter invert drop-shadow-lg"
             />
           </motion.div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight drop-shadow-lg">
             TrueSpace
           </h1>
-          <p className="text-gray-300 mt-2 font-medium">
+          <p className="text-gray-200 mt-1 font-medium text-sm sm:text-base">
             Образовательная платформа
           </p>
         </div>
       </motion.header>
 
       {/* Menu Buttons */}
-      <div className="flex-1 px-6 pb-8 space-y-3 relative z-10 touch-pan-y" style={{ WebkitOverflowScrolling: 'touch' }}>
+      <div className="flex-1 px-4 pb-6 space-y-2.5 relative z-10 touch-pan-y" style={{ WebkitOverflowScrolling: 'touch' }}>
         {menuItems.map((item, index) => {
           const IconComponent = item.icon
           return (
             <motion.button
               key={index}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ 
-                duration: 0.6, 
-                delay: index * 0.1 + 0.3,
-                ease: [0.25, 0.46, 0.45, 0.94]
-              }}
-              whileHover={{ 
-                scale: 1.02,
-                transition: { duration: 0.2 }
+                duration: 0.4, 
+                delay: index * 0.08 + 0.2,
+                ease: "easeOut"
               }}
               whileTap={{ 
-                scale: 0.98,
+                scale: 0.97,
                 transition: { duration: 0.1 }
               }}
-              onHoverStart={() => setActiveButton(index)}
-              onHoverEnd={() => setActiveButton(null)}
+              onTouchStart={() => setActiveButton(index)}
+              onTouchEnd={() => setActiveButton(null)}
+              onClick={() => {
+                setActiveButton(index)
+                setTimeout(() => setActiveButton(null), 150)
+              }}
               className={`
-                w-full p-5 rounded-2xl border border-white/10 backdrop-blur-md
-                transition-all duration-300 ease-out
+                w-full p-4 rounded-xl border backdrop-blur-sm
+                transition-all duration-200 ease-out
                 ${activeButton === index 
-                  ? 'bg-white/20 border-white/30 shadow-2xl' 
-                  : 'bg-white/5 hover:bg-white/10 hover:border-white/20 shadow-lg'
+                  ? 'bg-white/25 border-white/40 shadow-xl' 
+                  : 'bg-white/10 border-white/20 hover:bg-white/15 shadow-lg'
                 }
               `}
               style={{
                 boxShadow: activeButton === index 
-                  ? `0 20px 40px -12px ${item.color}40`
-                  : undefined
+                  ? `0 8px 25px -8px ${item.color}60`
+                  : '0 4px 15px -4px rgba(0,0,0,0.3)'
               }}
             >
-              <div className="flex items-center space-x-4">
-                <motion.div 
+              <div className="flex items-center space-x-3">
+                <div 
                   className={`
-                    flex items-center justify-center w-12 h-12 rounded-xl backdrop-blur-sm
-                    ${activeButton === index ? 'bg-white/20 shadow-lg' : 'bg-white/10'}
+                    flex items-center justify-center w-10 h-10 rounded-lg backdrop-blur-sm
+                    ${activeButton === index ? 'bg-white/30 shadow-md' : 'bg-white/15'}
                   `}
-                  whileHover={{ 
-                    rotate: [0, -5, 5, 0],
-                    transition: { duration: 0.4 }
-                  }}
                 >
                   <IconComponent 
-                    className="w-6 h-6" 
+                    className="w-5 h-5" 
                     style={{ color: activeButton === index ? '#ffffff' : item.color }}
                   />
-                </motion.div>
+                </div>
                 <div className="flex-1 text-left">
-                  <h3 className="font-semibold text-lg text-white tracking-tight">
+                  <h3 className="font-semibold text-base sm:text-lg text-white tracking-tight">
                     {item.title}
                   </h3>
-                  <p className="text-gray-300 text-sm mt-0.5">
+                  <p className="text-gray-200 text-xs sm:text-sm mt-0.5">
                     {item.subtitle}
                   </p>
                 </div>
-                <motion.div
-                  animate={{ 
-                    x: activeButton === index ? 4 : 0,
-                    scale: activeButton === index ? 1.1 : 1
-                  }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <ChevronRight 
-                    className={`w-5 h-5 transition-colors duration-200 ${
-                      activeButton === index ? 'text-white' : 'text-gray-400'
-                    }`}
-                  />
-                </motion.div>
+                <ChevronRight 
+                  className={`w-4 h-4 transition-all duration-200 ${
+                    activeButton === index ? 'text-white translate-x-1' : 'text-gray-300'
+                  }`}
+                />
               </div>
             </motion.button>
           )
