@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Aurora animation keyframes - оптимизированная версия */
+/* Оптимизированная анимация Aurora */
 @keyframes aurora {
   from {
     background-position: 50% 50%, 50% 50%;
@@ -8,6 +8,25 @@
   to {
     background-position: 350% 50%, 350% 50%;
   }
+}
+
+/* Мобильная версия анимации Aurora (более быстрая и менее ресурсоемкая) */
+@media screen and (max-width: 768px) {
+  @keyframes aurora-mobile {
+    0% {
+      background-position: 50% 50%, 50% 50%;
+    }
+    50% {
+      background-position: 200% 50%, 200% 50%;
+    }
+    100% {
+      background-position: 350% 50%, 350% 50%;
+    }
+  }
+  
+  .aurora-optimized::after {
+     animation: aurora-mobile 60s ease infinite !important;
+   }
 }
 
 /* Aurora animation utility - оптимизированная версия */
@@ -28,7 +47,7 @@
   contain: layout style paint;
 }
 
-/* Стеклянный эффект для кнопок */
+/* Оптимизированный стеклянный эффект для кнопок */
 .glass-button {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
@@ -37,6 +56,20 @@
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  
+  /* Оптимизации для производительности */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, box-shadow;
+  contain: layout style paint;
+  
+  /* Оптимизация для мобильных */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
 }
 
 .glass-button:hover {
@@ -52,6 +85,7 @@
   box-shadow: 
     0 4px 20px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateZ(0) scale(0.98); /* Легкий эффект нажатия */
 }
 
 :root {
@@ -188,50 +222,44 @@ html, body {
   overscroll-behavior: contain;
 }
 
-/* Prevent zoom on mobile inputs */
+/* Мобильные оптимизации */
 @media screen and (max-width: 768px) {
+  /* Предотвращение зума на мобильных устройствах */
   input, select, textarea {
     font-size: 16px !important;
   }
   
-  /* Optimize for small screens like iPhone 12 Pro */
+  /* Оптимизация для маленьких экранов */
   .small-screen-optimize {
     padding: 0.75rem !important;
     margin: 0.5rem 0 !important;
   }
   
-  /* Ensure icons are always visible and prevent flickering */
+  /* Глобальные оптимизации для производительности */
+  * {
+    /* Уменьшение времени анимаций для лучшей производительности */
+    animation-duration: 0.2s !important;
+    transition-duration: 0.15s !important;
+    
+    /* Оптимизация рендеринга */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+  }
+  
+  /* Оптимизация SVG иконок */
   svg {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
-    transform: translateZ(0); /* Force hardware acceleration */
-    backface-visibility: hidden; /* Prevent flickering */
-    -webkit-font-smoothing: antialiased; /* Smooth rendering */
-    will-change: auto; /* Optimize for changes */
-  }
-  
-  /* Prevent icon flickering during state changes */
-  .icon-stable {
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    perspective: 1000px;
     will-change: auto;
+    contain: layout style paint;
   }
   
-  /* Menu icon specific styles */
-  .icon-container .menu-icon {
-    transform: translateZ(0) !important;
-    backface-visibility: hidden !important;
-    -webkit-backface-visibility: hidden !important;
-    will-change: auto !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    animation: none !important;
-    transition: none !important;
-  }
-
+  /* Стабильные иконки меню */
   .menu-icon {
     transform: translateZ(0) !important;
     backface-visibility: hidden !important;
@@ -240,30 +268,53 @@ html, body {
     opacity: 1 !important;
     visibility: visible !important;
     animation: none !important;
-    transition: none !important;
-  }
-  
-  /* Force icon colors to be stable */
-  .menu-icon {
+    transition: color 0.15s ease !important;
     fill: none !important;
     stroke: currentColor !important;
     stroke-width: 2 !important;
+    contain: layout style paint;
   }
   
-  /* Optimize button interactions for mobile */
-  .glass-button {
+  /* Контейнер иконок */
+  .icon-container {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    contain: layout style paint;
+  }
+  
+  /* Оптимизация кнопок для мобильных */
+  button {
+    /* Минимальный размер для удобного нажатия */
+    min-height: 44px;
+    min-width: 44px;
+    
+    /* Оптимизация касаний */
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
+    touch-action: manipulation;
+    
+    /* Производительность */
     transform: translateZ(0);
     backface-visibility: hidden;
+    contain: layout style paint;
   }
   
-  /* Reduce motion for better performance */
-  * {
-    animation-duration: 0.3s !important;
-    transition-duration: 0.2s !important;
+  /* Оптимизация анимированных элементов */
+  .motion-element,
+  [data-animated="true"] {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+    contain: layout style paint;
+  }
+  
+  /* Оптимизация скролла */
+  .scrollable-content {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
   }
 }
 

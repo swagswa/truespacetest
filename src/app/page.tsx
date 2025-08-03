@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useCallback, useMemo } from 'react';
 import { 
   Bot, 
   Palette, 
@@ -13,26 +13,34 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { AuroraBackground } from '@/components/ui/aurora-background'
 import { useSpring, animated, useTrail } from '@react-spring/web'
+import { 
+  getOptimizedAnimationConfig, 
+  getPerformanceOptimizedSettings
+} from '@/lib/performance'
 
 export default function TrueSpaceApp() {
   const [activeButton, setActiveButton] = useState<number | null>(null)
 
-  // Анимация для заголовка
+  // Получаем оптимизированные настройки
+  const animationConfig = useMemo(() => getOptimizedAnimationConfig(), []);
+  const performanceSettings = useMemo(() => getPerformanceOptimizedSettings(), []);
+
+  // Оптимизированные анимации с уменьшенной сложностью для мобильных
   const headerSpring = useSpring({
-    from: { opacity: 0, transform: 'translateY(-20px)' },
+    from: { opacity: 0, transform: 'translateY(-10px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
-    config: { tension: 280, friction: 60 }
+    config: animationConfig // Более быстрые анимации
   })
 
-  // Анимация для логотипа
   const logoSpring = useSpring({
-    from: { opacity: 0, transform: 'scale(0.8)' },
+    from: { opacity: 0, transform: 'scale(0.9)' },
     to: { opacity: 1, transform: 'scale(1)' },
-    config: { tension: 300, friction: 40 },
-    delay: 200
+    config: animationConfig,
+    delay: performanceSettings.enableComplexAnimations ? 100 : 50 // Уменьшенная задержка
   })
 
-  const menuItems = [
+  // Мемоизация данных меню для предотвращения пересоздания
+  const menuItems = useMemo(() => [
     {
       title: "ИИ Агенты",
       subtitle: "Создание умных помощников",
@@ -68,15 +76,30 @@ export default function TrueSpaceApp() {
       color: "#ef4444",
       href: "/webinars"
     }
-  ]
+  ], [])
 
-  // Каскадная анимация для кнопок меню (без влияния на иконки)
+  // Оптимизированная каскадная анимация
   const trail = useTrail(menuItems.length, {
-    from: { opacity: 0, transform: 'translateY(30px)' },
+    from: { opacity: 0, transform: 'translateY(20px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
-    config: { tension: 280, friction: 60 },
-    delay: 400
+    config: animationConfig,
+    delay: performanceSettings.enableComplexAnimations ? 200 : 100,
   })
+
+  // Мемоизированные обработчики событий
+  const handlePointerDown = useCallback((index: number) => {
+    setActiveButton(index)
+  }, [])
+
+  const handlePointerUp = useCallback(() => {
+    setActiveButton(null)
+  }, [])
+
+  const handlePointerLeave = useCallback(() => {
+    setActiveButton(null)
+  }, [])
+
+
 
   return (
     <AuroraBackground>
@@ -112,29 +135,26 @@ export default function TrueSpaceApp() {
             <animated.div key={index} style={style}>
               <Link href={item.href} className={`block ${index < menuItems.length - 1 ? 'mb-6' : ''}`}>
               <button
-                onPointerDown={() => setActiveButton(index)}
-                onPointerUp={() => setActiveButton(null)}
-                onPointerLeave={() => setActiveButton(null)}
-                className={`
-                  glass-button w-full p-4 rounded-xl
-                  transition-all duration-300 ease-out
-                  relative overflow-hidden
-                  ${activeButton === index 
-                    ? 'shadow-2xl' 
-                    : 'shadow-lg hover:shadow-xl'
-                  }
-                `}
+                className="glass-button w-full p-4 rounded-xl relative overflow-hidden motion-element transition-all ease-out"
+                onPointerDown={() => handlePointerDown(index)}
+                onPointerUp={handlePointerUp}
+                onPointerLeave={handlePointerLeave}
                 style={{
+                  transitionDuration: `${performanceSettings.animationDuration}ms`,
                   boxShadow: activeButton === index 
                     ? `0 8px 25px -8px ${item.color}60`
-                    : '0 4px 15px -4px rgba(0,0,0,0.3)'
+                    : '0 4px 15px -4px rgba(0,0,0,0.3)',
+                  transform: 'translateZ(0)',
+                  backfaceVisibility: 'hidden',
+                  contain: 'layout style paint'
                 }}
+                data-animated="true"
               >
                 <div className="flex items-center space-x-3">
                   <div 
                     className={`
                       flex items-center justify-center w-10 h-10 rounded-lg backdrop-blur-sm
-                      transition-all duration-300 ease-out icon-container
+                      transition-all duration-150 ease-out icon-container
                       ${activeButton === index 
                         ? 'bg-white/25 shadow-lg' 
                         : 'bg-white/10'
@@ -145,16 +165,7 @@ export default function TrueSpaceApp() {
                       opacity: '1 !important'
                     }}
                   >
-                    <div style={{ opacity: 1, transform: 'none' }}>
-                      <IconComponent 
-                        className="w-5 h-5 menu-icon"
-                        style={{ 
-                          color: item.color,
-                          fill: 'none',
-                          stroke: 'currentColor'
-                        }}
-                      />
-                    </div>
+                    <item.icon className="w-5 h-5 transition-colors duration-150" />
                   </div>
                   <div className="flex-1 text-left">
                     <h3 className="font-semibold text-base sm:text-lg text-white tracking-tight">
@@ -165,7 +176,7 @@ export default function TrueSpaceApp() {
                     </p>
                   </div>
                   <ChevronRight 
-                    className={`w-4 h-4 transition-all duration-200 ${
+                    className={`w-4 h-4 transition-all duration-150 ${
                       activeButton === index ? 'text-white translate-x-1' : 'text-neutral-300'
                     }`}
                   />
