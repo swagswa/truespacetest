@@ -32,7 +32,7 @@ function createBeam(width: number, height: number): Beam {
         length: height * 2.5,
         angle: angle,
         speed: 0.6 + Math.random() * 1.2,
-        opacity: 0.12 + Math.random() * 0.16,
+        opacity: 0.4 + Math.random() * 0.3,
         hue: 190 + Math.random() * 70,
         pulse: Math.random() * Math.PI * 2,
         pulseSpeed: 0.02 + Math.random() * 0.03,
@@ -173,6 +173,9 @@ export function BeamsBackground({
                 className
             )}
         >
+            {/* Базовый постоянный слой */}
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-700/50 via-purple-600/40 to-indigo-700/50" />
+            
             <canvas
                 ref={canvasRef}
                 className="absolute inset-0 opacity-60"
@@ -186,14 +189,15 @@ export function BeamsBackground({
             />
 
             <motion.div
-                className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/10 to-transparent"
+                className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-600/30 to-transparent"
                 animate={{
-                    opacity: [0.3, 0.6, 0.3],
+                    opacity: [0.8, 1.0, 0.8],
                 }}
                 transition={{
-                    duration: 8,
+                    duration: 4,
                     ease: "easeInOut",
-                    repeat: Number.POSITIVE_INFINITY,
+                    repeat: Infinity,
+                    repeatType: "reverse",
                 }}
             />
 

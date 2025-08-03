@@ -1,11 +1,77 @@
 @import "tailwindcss";
 
+/* Aurora animation keyframes - оптимизированная версия */
+@keyframes aurora {
+  from {
+    background-position: 50% 50%, 50% 50%;
+  }
+  to {
+    background-position: 350% 50%, 350% 50%;
+  }
+}
+
+/* Aurora animation utility - оптимизированная версия */
+@utility animate-aurora {
+  animation: aurora 60s linear infinite;
+  transform: translateZ(0); /* Включаем аппаратное ускорение */
+  backface-visibility: hidden; /* Оптимизация для GPU */
+  will-change: background-position; /* Оптимизация для браузера */
+  contain: layout style paint; /* Изоляция для лучшей производительности */
+}
+
+/* Дополнительные оптимизации для Aurora Background */
+.aurora-optimized {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
+  contain: layout style paint;
+}
+
+/* Стеклянный эффект для кнопок */
+.glass-button {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-button:active {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
 :root {
   --color-1: 0 100% 63%;
   --color-2: 270 100% 63%;
   --color-3: 210 100% 63%;
   --color-4: 195 100% 63%;
   --color-5: 90 100% 63%;
+  
+  /* Aurora Background variables */
+  --white: #ffffff;
+  --black: #000000;
+  --transparent: transparent;
+  
+  /* Tailwind color variables for Aurora */
+  --blue-300: #93c5fd;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --indigo-300: #a5b4fc;
+  --violet-200: #ddd6fe;
 }
 
 @theme {
@@ -31,25 +97,25 @@
   --radius: 0.5rem;
 
   --color-*: initial;
-  --color-background: oklch(100% 0 0);
-  --color-foreground: oklch(9% 0 0);
-  --color-card: oklch(100% 0 0);
-  --color-card-foreground: oklch(9% 0 0);
-  --color-popover: oklch(100% 0 0);
-  --color-popover-foreground: oklch(9% 0 0);
-  --color-primary: oklch(9% 0 0);
-  --color-primary-foreground: oklch(98% 0 0);
-  --color-secondary: oklch(96% 0 0);
-  --color-secondary-foreground: oklch(9% 0 0);
-  --color-muted: oklch(96% 0 0);
-  --color-muted-foreground: oklch(45% 0 0);
-  --color-accent: oklch(96% 0 0);
-  --color-accent-foreground: oklch(9% 0 0);
+  --color-background: oklch(0% 0 0);
+  --color-foreground: oklch(98% 0 0);
+  --color-card: oklch(0% 0 0);
+  --color-card-foreground: oklch(98% 0 0);
+  --color-popover: oklch(0% 0 0);
+  --color-popover-foreground: oklch(98% 0 0);
+  --color-primary: oklch(98% 0 0);
+  --color-primary-foreground: oklch(9% 0 0);
+  --color-secondary: oklch(15% 0 0);
+  --color-secondary-foreground: oklch(98% 0 0);
+  --color-muted: oklch(15% 0 0);
+  --color-muted-foreground: oklch(64% 0 0);
+  --color-accent: oklch(15% 0 0);
+  --color-accent-foreground: oklch(98% 0 0);
   --color-destructive: oklch(63% 0.18 29);
   --color-destructive-foreground: oklch(98% 0 0);
-  --color-border: oklch(89% 0 0);
-  --color-input: oklch(89% 0 0);
-  --color-ring: oklch(9% 0 0);
+  --color-border: oklch(15% 0 0);
+  --color-input: oklch(15% 0 0);
+  --color-ring: oklch(83% 0 0);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -78,11 +144,14 @@
 
 @layer base {
   * {
-    border-color: theme(colors.border);
+    border-color: hsl(var(--border));
+  }
+  html {
+    background-color: #000000 !important;
   }
   body {
-    background-color: theme(colors.background);
-    color: theme(colors.foreground);
+    background-color: #000000 !important;
+    color: #ffffff !important;
   }
 }
 

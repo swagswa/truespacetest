@@ -8,13 +8,20 @@ import {
   Zap, 
   GraduationCap, 
   Video,
-  ChevronRight
+  ChevronRight,
+  Sparkles,
+  Code,
+  Circle
 } from 'lucide-react'
 import Image from 'next/image'
-import { BeamsBackground } from '@/components/ui/beams-background'
+import { AuroraBackground } from '@/components/ui/aurora-background'
+import { DarkParticles } from '@/components/ui/dark-particles'
+import { DarkOrbs } from '@/components/ui/dark-orbs'
+import { DarkMatrix } from '@/components/ui/dark-matrix'
 
 export default function TrueSpaceApp() {
   const [activeButton, setActiveButton] = useState<number | null>(null)
+  const [animationType, setAnimationType] = useState<'aurora' | 'particles' | 'orbs' | 'matrix'>('aurora')
 
   const menuItems = [
     {
@@ -65,21 +72,22 @@ export default function TrueSpaceApp() {
   ]
 
   return (
-    <BeamsBackground intensity="strong" className="min-h-screen w-full max-w-sm mx-auto flex flex-col relative">
+    <AuroraBackground>
+      <div className="w-full max-w-sm mx-auto flex flex-col relative z-10">
 
       {/* Header */}
       <motion.header 
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="relative z-10 pt-12 pb-6 px-4 flex-shrink-0"
+        className="relative z-10 pb-6 px-4 flex-shrink-0"
       >
         <div className="text-center">
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-3 flex justify-center"
+            className="mb-1 flex justify-center"
           >
             <Image
               src="/Logo.svg"
@@ -89,10 +97,10 @@ export default function TrueSpaceApp() {
               className="filter invert drop-shadow-lg"
             />
           </motion.div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight drop-shadow-lg">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white text-center tracking-tight drop-shadow-lg">
             TrueSpace
           </h1>
-          <p className="text-gray-200 mt-1 font-medium text-sm sm:text-base">
+          <p className="text-neutral-200 mt-1 font-medium text-sm sm:text-base">
             Образовательная платформа
           </p>
         </div>
@@ -123,11 +131,12 @@ export default function TrueSpaceApp() {
                 setTimeout(() => setActiveButton(null), 150)
               }}
               className={`
-                w-full p-4 rounded-xl border backdrop-blur-sm
-                transition-all duration-200 ease-out
+                glass-button w-full p-4 rounded-xl
+                transition-all duration-300 ease-out
+                relative overflow-hidden
                 ${activeButton === index 
-                  ? 'bg-white/25 border-white/40 shadow-xl' 
-                  : 'bg-white/10 border-white/20 hover:bg-white/15 shadow-lg'
+                  ? 'shadow-2xl' 
+                  : 'shadow-lg hover:shadow-xl'
                 }
               `}
               style={{
@@ -140,7 +149,11 @@ export default function TrueSpaceApp() {
                 <div 
                   className={`
                     flex items-center justify-center w-10 h-10 rounded-lg backdrop-blur-sm
-                    ${activeButton === index ? 'bg-white/30 shadow-md' : 'bg-white/15'}
+                    transition-all duration-300 ease-out
+                    ${activeButton === index 
+                      ? 'bg-white/25 shadow-lg' 
+                      : 'bg-white/10'
+                    }
                   `}
                 >
                   <IconComponent 
@@ -152,13 +165,13 @@ export default function TrueSpaceApp() {
                   <h3 className="font-semibold text-base sm:text-lg text-white tracking-tight">
                     {item.title}
                   </h3>
-                  <p className="text-gray-200 text-xs sm:text-sm mt-0.5">
+                  <p className="text-neutral-200 text-xs sm:text-sm mt-0.5">
                     {item.subtitle}
                   </p>
                 </div>
                 <ChevronRight 
                   className={`w-4 h-4 transition-all duration-200 ${
-                    activeButton === index ? 'text-white translate-x-1' : 'text-gray-300'
+                    activeButton === index ? 'text-white translate-x-1' : 'text-neutral-300'
                   }`}
                 />
               </div>
@@ -167,7 +180,7 @@ export default function TrueSpaceApp() {
         })}
       </div>
 
-
-    </BeamsBackground>
+      </div>
+    </AuroraBackground>
   )
 }
