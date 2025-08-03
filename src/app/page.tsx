@@ -8,20 +8,13 @@ import {
   Zap, 
   GraduationCap, 
   Video,
-  ChevronRight,
-  Sparkles,
-  Code,
-  Circle
+  ChevronRight
 } from 'lucide-react'
 import Image from 'next/image'
 import { AuroraBackground } from '@/components/ui/aurora-background'
-import { DarkParticles } from '@/components/ui/dark-particles'
-import { DarkOrbs } from '@/components/ui/dark-orbs'
-import { DarkMatrix } from '@/components/ui/dark-matrix'
 
 export default function TrueSpaceApp() {
   const [activeButton, setActiveButton] = useState<number | null>(null)
-  const [animationType, setAnimationType] = useState<'aurora' | 'particles' | 'orbs' | 'matrix'>('aurora')
 
   const menuItems = [
     {

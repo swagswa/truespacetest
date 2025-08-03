@@ -45,8 +45,8 @@ export const DarkParticles = ({
       opacityDirection: number;
 
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.x = Math.random() * (canvas?.width || 800);
+        this.y = Math.random() * (canvas?.height || 600);
         this.vx = (Math.random() - 0.5) * speed;
         this.vy = (Math.random() - 0.5) * speed;
         this.size = Math.random() * particleSize + 1;
@@ -59,10 +59,10 @@ export const DarkParticles = ({
         this.y += this.vy;
 
         // Wrap around edges
-        if (this.x < 0) this.x = canvas.width;
-        if (this.x > canvas.width) this.x = 0;
-        if (this.y < 0) this.y = canvas.height;
-        if (this.y > canvas.height) this.y = 0;
+        if (this.x < 0) this.x = canvas?.width || 800;
+        if (this.x > (canvas?.width || 800)) this.x = 0;
+        if (this.y < 0) this.y = canvas?.height || 600;
+        if (this.y > (canvas?.height || 600)) this.y = 0;
 
         // Animate opacity
         this.opacity += this.opacityDirection * 0.005;
@@ -72,6 +72,7 @@ export const DarkParticles = ({
       }
 
       draw() {
+        if (!ctx) return;
         ctx.save();
         ctx.globalAlpha = this.opacity;
         ctx.fillStyle = particleColor;
@@ -90,6 +91,7 @@ export const DarkParticles = ({
 
     // Animation loop
     const animate = () => {
+      if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       particles.forEach((particle) => {
@@ -104,7 +106,7 @@ export const DarkParticles = ({
           const dy = particle.y - otherParticle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 100) {
+          if (distance < 100 && ctx) {
             ctx.save();
             ctx.globalAlpha = (100 - distance) / 100 * 0.2;
             ctx.strokeStyle = particleColor;
