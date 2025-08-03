@@ -153,6 +153,14 @@
     background-color: #000000 !important;
     color: #ffffff !important;
   }
+  
+  /* Prevent icon flickering globally */
+  svg {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: auto;
+  }
 }
 
 /* Hide scrollbars for mobile */
@@ -209,8 +217,37 @@ html, body {
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     perspective: 1000px;
-    will-change: color;
-    transition: color 0.2s ease-out;
+    will-change: auto;
+  }
+  
+  /* Menu icon specific styles */
+  .icon-container .menu-icon {
+    transform: translateZ(0) !important;
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
+    will-change: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .menu-icon {
+    transform: translateZ(0) !important;
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
+    will-change: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  /* Force icon colors to be stable */
+  .menu-icon {
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
   }
   
   /* Optimize button interactions for mobile */

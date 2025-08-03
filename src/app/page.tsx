@@ -1,11 +1,10 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { 
-  Brain, 
+  Bot, 
   Palette, 
-  Zap, 
+  Code, 
   GraduationCap, 
   Video,
   ChevronRight
@@ -13,81 +12,80 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { AuroraBackground } from '@/components/ui/aurora-background'
+import { useSpring, animated, useTrail } from '@react-spring/web'
 
 export default function TrueSpaceApp() {
   const [activeButton, setActiveButton] = useState<number | null>(null)
 
+  // Анимация для заголовка
+  const headerSpring = useSpring({
+    from: { opacity: 0, transform: 'translateY(-20px)' },
+    to: { opacity: 1, transform: 'translateY(0px)' },
+    config: { tension: 280, friction: 60 }
+  })
+
+  // Анимация для логотипа
+  const logoSpring = useSpring({
+    from: { opacity: 0, transform: 'scale(0.8)' },
+    to: { opacity: 1, transform: 'scale(1)' },
+    config: { tension: 300, friction: 40 },
+    delay: 200
+  })
+
   const menuItems = [
     {
-      title: "AI агенты",
+      title: "ИИ Агенты",
       subtitle: "Создание умных помощников",
-      icon: Brain,
+      icon: Bot,
       color: "#6366f1",
-      bgColor: "bg-indigo-500/10",
-      hoverBg: "bg-indigo-500/20",
-      shadowColor: "shadow-indigo-500/20",
       href: "/ai-agents"
     },
     {
-      title: "Графика и Видео с ИИ",
-      subtitle: "Творчество с ИИ",
+      title: "Graphics AI",
+      subtitle: "ИИ для графического дизайна",
       icon: Palette,
       color: "#8b5cf6",
-      bgColor: "bg-violet-500/10",
-      hoverBg: "bg-violet-500/20",
-      shadowColor: "shadow-violet-500/20",
       href: "/graphics-ai"
     },
     {
-      title: "No-code разработка",
-      subtitle: "Приложения без кода",
-      icon: Zap,
-      color: "#f59e0b",
-      bgColor: "bg-amber-500/10",
-      hoverBg: "bg-amber-500/20",
-      shadowColor: "shadow-amber-500/20",
-      href: "/no-code"
-    },
-    {
       title: "ИИ для начинающих",
-      subtitle: "Основы ИИ",
+      subtitle: "Первые шаги в мире ИИ",
       icon: GraduationCap,
       color: "#10b981",
-      bgColor: "bg-emerald-500/10",
-      hoverBg: "bg-emerald-500/20",
-      shadowColor: "shadow-emerald-500/20",
       href: "/ai-beginners"
     },
     {
+      title: "No-code разработка",
+      subtitle: "Создание без программирования",
+      icon: Code,
+      color: "#f59e0b",
+      href: "/no-code"
+    },
+    {
       title: "Вебинары",
-      subtitle: "Живые занятия",
+      subtitle: "Онлайн обучение в реальном времени",
       icon: Video,
       color: "#ef4444",
-      bgColor: "bg-red-500/10",
-      hoverBg: "bg-red-500/20",
-      shadowColor: "shadow-red-500/20",
       href: "/webinars"
     }
   ]
+
+  // Каскадная анимация для кнопок меню (без влияния на иконки)
+  const trail = useTrail(menuItems.length, {
+    from: { opacity: 0, transform: 'translateY(30px)' },
+    to: { opacity: 1, transform: 'translateY(0px)' },
+    config: { tension: 280, friction: 60 },
+    delay: 400
+  })
 
   return (
     <AuroraBackground>
       <div className="w-full max-w-sm mx-auto flex flex-col relative z-10">
 
       {/* Header */}
-      <motion.header 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-        className="relative z-10 pb-6 px-4 flex-shrink-0"
-      >
+      <animated.header style={headerSpring} className="relative z-10 pb-6 px-4 flex-shrink-0">
         <div className="text-center">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            className="mb-1 flex justify-center"
-          >
+          <animated.div style={logoSpring} className="mb-1 flex justify-center">
             <Image
               src="/Logo.svg"
               alt="TrueSpace Logo"
@@ -95,7 +93,7 @@ export default function TrueSpaceApp() {
               height={80}
               className="filter invert drop-shadow-lg"
             />
-          </motion.div>
+          </animated.div>
           <h1 className="text-2xl sm:text-3xl font-bold text-white text-center tracking-tight drop-shadow-lg">
             TrueSpace
           </h1>
@@ -103,25 +101,17 @@ export default function TrueSpaceApp() {
             Образовательная платформа
           </p>
         </div>
-      </motion.header>
+      </animated.header>
 
       {/* Menu Buttons */}
       <div className="flex-1 px-4 pb-6 relative z-10 touch-pan-y" style={{ WebkitOverflowScrolling: 'touch' }}>
-        {menuItems.map((item, index) => {
+        {trail.map((style, index) => {
+          const item = menuItems[index]
           const IconComponent = item.icon
           return (
-            <Link key={index} href={item.href} className={`block ${index < menuItems.length - 1 ? 'mb-6' : ''}`}>
-              <motion.button
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ 
-                  duration: 0.3,
-                  ease: "easeOut"
-                }}
-                whileTap={{ 
-                  scale: 0.97,
-                  transition: { duration: 0.1 }
-                }}
+            <animated.div key={index} style={style}>
+              <Link href={item.href} className={`block ${index < menuItems.length - 1 ? 'mb-6' : ''}`}>
+              <button
                 onPointerDown={() => setActiveButton(index)}
                 onPointerUp={() => setActiveButton(null)}
                 onPointerLeave={() => setActiveButton(null)}
@@ -144,19 +134,27 @@ export default function TrueSpaceApp() {
                   <div 
                     className={`
                       flex items-center justify-center w-10 h-10 rounded-lg backdrop-blur-sm
-                      transition-all duration-300 ease-out
+                      transition-all duration-300 ease-out icon-container
                       ${activeButton === index 
                         ? 'bg-white/25 shadow-lg' 
                         : 'bg-white/10'
                       }
                     `}
+                    style={{
+                      transform: 'none !important',
+                      opacity: '1 !important'
+                    }}
                   >
-                    <IconComponent 
-                      className={`w-5 h-5 icon-stable ${
-                        activeButton === index ? 'text-white' : ''
-                      }`}
-                      style={{ color: activeButton === index ? undefined : item.color }}
-                    />
+                    <div style={{ opacity: 1, transform: 'none' }}>
+                      <IconComponent 
+                        className="w-5 h-5 menu-icon"
+                        style={{ 
+                          color: item.color,
+                          fill: 'none',
+                          stroke: 'currentColor'
+                        }}
+                      />
+                    </div>
                   </div>
                   <div className="flex-1 text-left">
                     <h3 className="font-semibold text-base sm:text-lg text-white tracking-tight">
@@ -172,8 +170,9 @@ export default function TrueSpaceApp() {
                     }`}
                   />
                 </div>
-              </motion.button>
+              </button>
             </Link>
+            </animated.div>
           )
         })}
       </div>
