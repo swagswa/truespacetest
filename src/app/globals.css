@@ -210,9 +210,11 @@
 /* Mobile scroll improvements */
 html, body {
   height: 100%;
-  overflow-x: hidden;
+  overflow: hidden; /* Отключаем скролл на html/body */
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
 }
 
 /* Improve touch scrolling on mobile */
@@ -220,6 +222,43 @@ html, body {
   touch-action: pan-y;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
+  scroll-behavior: smooth;
+}
+
+/* Enhanced mobile scroll container */
+.mobile-scroll-container {
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  position: relative;
+  
+  /* Prevent bounce effect on iOS */
+  -webkit-overflow-scrolling: touch;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  
+  /* Smooth scrolling for all browsers */
+  scroll-snap-type: y proximity;
+}
+
+/* Scroll snap for sections */
+.scroll-snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+/* Fix for iOS Safari scroll issues */
+@supports (-webkit-touch-callout: none) {
+  .mobile-scroll-container {
+    -webkit-overflow-scrolling: touch;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    will-change: scroll-position;
+  }
 }
 
 /* Мобильные оптимизации */
@@ -315,6 +354,32 @@ html, body {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
     scroll-behavior: smooth;
+  }
+  
+  /* Предотвращение горизонтального скролла */
+  body {
+    overflow: hidden !important; /* Полностью отключаем скролл на body */
+    position: relative;
+  }
+  
+  /* Улучшенный скролл для всех элементов */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Фиксация проблем с iOS Safari */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+  
+  /* Оптимизация для touch устройств */
+  .touch-optimized {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
   }
 }
 

@@ -10,23 +10,23 @@ export default function GraphicsAIPage() {
   const backButtonSpring = useSpring({
     from: { opacity: 0, transform: 'translateX(-20px)' },
     to: { opacity: 1, transform: 'translateX(0px)' },
-    config: { tension: 280, friction: 60 }
+    config: { tension: 120, friction: 80 }
   })
 
   // Анимация для заголовка
   const titleSpring = useSpring({
     from: { opacity: 0, transform: 'translateY(-30px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
-    config: { tension: 280, friction: 60 },
-    delay: 200
+    config: { tension: 120, friction: 80 },
+    delay: 400
   })
 
   // Анимация для иконки
   const iconSpring = useSpring({
     from: { opacity: 0, transform: 'scale(0.5) rotate(-180deg)' },
     to: { opacity: 1, transform: 'scale(1) rotate(0deg)' },
-    config: { tension: 300, friction: 40 },
-    delay: 400
+    config: { tension: 150, friction: 70 },
+    delay: 800
   })
 
   // Карточки контента для каскадной анимации
@@ -58,14 +58,15 @@ export default function GraphicsAIPage() {
   const trail = useTrail(contentCards.length, {
     from: { opacity: 0, transform: 'translateY(30px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
-    config: { tension: 280, friction: 60 },
-    delay: 600
+    config: { tension: 120, friction: 80 },
+    delay: 1200
   })
   return (
     <AuroraBackground>
-      <div className="w-full max-w-md mx-auto flex flex-col relative z-10 min-h-screen">
-        {/* Back Button */}
-        <animated.div style={backButtonSpring} className="px-6 pt-6 mb-8">
+      <div className="mobile-scroll-container">
+        <div className="w-full max-w-md mx-auto flex flex-col relative z-10 min-h-full">
+        {/* Back Button - Fixed */}
+        <animated.div style={backButtonSpring} className="fixed top-6 left-6 z-50">
           <Link href="/">
             <button className="glass-button flex items-center space-x-2 px-4 py-3 rounded-lg">
               <ArrowLeft className="w-4 h-4 text-white" />
@@ -75,7 +76,7 @@ export default function GraphicsAIPage() {
         </animated.div>
 
         {/* Page Content */}
-        <div className="flex-1 px-6 pb-8">
+        <div className="flex-1 px-6 pb-8 pt-20">
           {/* Page Title */}
           <animated.div style={titleSpring} className="text-center mb-10">
             <animated.div style={iconSpring} className="flex items-center justify-center w-20 h-20 rounded-2xl bg-purple-500/20 backdrop-blur-sm mx-auto mb-6">
@@ -111,7 +112,7 @@ export default function GraphicsAIPage() {
             ))}
           </div>
         </div>
-
+        </div>
       </div>
     </AuroraBackground>
   )

@@ -7,9 +7,9 @@ import { AuroraBackground } from '@/components/ui/aurora-background'
 import { getOptimizedAnimationConfig, getPerformanceOptimizedSettings } from '@/lib/performance'
 
 // Иконки
-import { BookOpen, Zap, Lightbulb, Video } from 'lucide-react'
+import { BookOpen, Users, Zap, Lightbulb, Video } from 'lucide-react'
 
-// Основные элементы меню для главной страницы
+// Мемоизированные элементы меню
 const menuItems = [
   {
     title: 'AI Агенты',
@@ -36,14 +36,14 @@ const menuItems = [
     href: '/ai-beginners'
   },
   {
-    title: 'Графический ИИ',
-    description: 'Создание изображений с помощью ИИ',
-    icon: <Zap className="w-6 h-6 text-cyan-400" />,
-    href: '/graphics-ai'
+    title: 'Сообщество',
+    description: 'Общение с единомышленниками',
+    icon: <Users className="w-6 h-6 text-pink-400" />,
+    href: '/community'
   }
 ]
 
-export default function TrueSpaceApp() {
+export default function ClientTrueSpaceApp() {
   const [activeButton, setActiveButton] = useState<number | null>(null)
 
   // Получаем оптимизированные настройки
@@ -54,15 +54,15 @@ export default function TrueSpaceApp() {
   const headerSpring = useSpring({
     from: { opacity: 0, transform: 'translateY(-20px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
-    config: { tension: 120, friction: 80 },
-    delay: 200
+    config: animationConfig,
+    delay: 100
   })
 
   const menuSpring = useSpring({
     from: { opacity: 0, transform: 'translateY(20px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
-    config: { tension: 120, friction: 80 },
-    delay: 600
+    config: animationConfig,
+    delay: 300
   })
 
   // Мемоизированный обработчик клика
@@ -77,10 +77,15 @@ export default function TrueSpaceApp() {
 
   return (
     <AuroraBackground>
-      <div className="w-full max-w-sm mx-auto flex flex-col relative z-10 min-h-screen justify-center">
+      <div className="mobile-scroll-container">
+        <div className="w-full max-w-sm mx-auto flex flex-col relative z-10 min-h-full">
           <animated.header 
-            style={headerSpring}
-            className="relative z-10 pb-6 px-4 flex-shrink-0"
+            style={{
+              ...headerSpring,
+              touchAction: 'pan-y',
+              overscrollBehavior: 'contain'
+            }}
+            className="relative z-10 pb-6 px-4 flex-shrink-0 scroll-snap-section"
           >
             <div className="text-center">
               <div className="mb-1 flex justify-center">
@@ -102,8 +107,13 @@ export default function TrueSpaceApp() {
           </animated.header>
 
           <animated.div 
-            style={menuSpring}
-            className="flex-1 px-4 pb-6 relative z-10"
+            style={{
+              ...menuSpring,
+              WebkitOverflowScrolling: 'touch',
+              touchAction: 'pan-y',
+              overscrollBehavior: 'contain'
+            }}
+            className="flex-1 px-4 pb-6 relative z-10 touch-pan-y scroll-snap-section"
           >
             <div className="space-y-6">
               {menuItems.map((item, index) => (
@@ -137,6 +147,7 @@ export default function TrueSpaceApp() {
             </div>
           </animated.div>
         </div>
+      </div>
     </AuroraBackground>
   )
 }
