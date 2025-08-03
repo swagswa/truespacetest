@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 TrueSpace - Образовательная платформа ИИ
 
-## Getting Started
+Современная образовательная платформа для изучения искусственного интеллекта с интеграцией Telegram бота.
 
-First, run the development server:
+## ✨ Возможности
+
+- 🎨 Современный дизайн с анимированным градиентным фоном
+- 📱 Адаптивный интерфейс для всех устройств
+- 🤖 Интеграция с Telegram ботом
+- 🎯 5 категорий обучения ИИ
+- ⚡ Быстрая загрузка и плавные анимации
+
+## 🛠 Технологии
+
+- **Next.js 15** - React фреймворк
+- **TypeScript** - типизированный JavaScript
+- **Tailwind CSS** - утилитарный CSS фреймворк
+- **Framer Motion** - анимации
+- **Vercel** - хостинг и деплой
+
+## 🚀 Быстрый старт
+
+### Локальная разработка
 
 ```bash
+# Установка зависимостей
+npm install
+
+# Запуск dev сервера
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Открыть http://localhost:3007
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Деплой на Vercel
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Подключите репозиторий к Vercel
+2. Настройки деплоя автоматически определятся
+3. Получите HTTPS ссылку для Telegram бота
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Сборка для продакшена
+npm run build
 
-## Learn More
+# Запуск продакшен сервера
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🤖 Telegram бот
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Бот находится в папке `bot/` и интегрируется с веб-приложением:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+cd bot
+npm install
+npm start
+```
 
-## Deploy on Vercel
+**Важно**: Для работы Web App кнопок в Telegram требуется HTTPS URL.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎯 Категории обучения
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **🤖 AI Агенты** - Создание умных помощников
+2. **🎨 Графика и Видео с ИИ** - Творчество с ИИ
+3. **⚡ No-code разработка** - Приложения без кода
+4. **🎓 ИИ для начинающих** - Основы ИИ
+5. **📹 Вебинары** - Живые обучающие сессии
+
+## 📁 Структура проекта
+
+```
+├── src/
+│   ├── app/           # Next.js App Router
+│   ├── components/    # React компоненты
+│   └── lib/          # Утилиты
+├── bot/              # Telegram бот
+├── public/           # Статические файлы
+└── vercel.json       # Конфигурация Vercel
+```
+
+## 🌐 Деплой
+
+Проект оптимизирован для деплоя на Vercel с автоматической настройкой.
