@@ -47,10 +47,10 @@ export function BeamsBackground({
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const beamsRef = useRef<Beam[]>([]);
     const animationFrameRef = useRef<number>(0);
-    // Уменьшаем количество лучей для лучшей производительности на мобильных
-    const MINIMUM_BEAMS = typeof window !== 'undefined' && window.innerWidth < 768 ? 8 : 15;
 
     useEffect(() => {
+        // Уменьшаем количество лучей для лучшей производительности на мобильных
+        const MINIMUM_BEAMS = typeof window !== 'undefined' && window.innerWidth < 768 ? 8 : 15;
         const opacityMap = {
             subtle: 0.7,
             medium: 0.85,
@@ -138,7 +138,7 @@ export function BeamsBackground({
             if (!canvas || !ctx) return;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.filter = "blur(35px)";
+            ctx.filter = "blur(20px)";
 
             const totalBeams = beamsRef.current.length;
             beamsRef.current.forEach((beam, index) => {
