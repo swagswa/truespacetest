@@ -11,9 +11,9 @@ export default function AIAgentsPage() {
       <div className="w-full max-w-md mx-auto flex flex-col relative z-10 min-h-screen">
         {/* Back Button */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="px-6 pt-6 mb-8"
         >
           <Link href="/">
@@ -29,9 +29,9 @@ export default function AIAgentsPage() {
 
         {/* Page Content */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="flex-1 px-6 pb-8"
         >
           {/* Page Title */}
@@ -50,9 +50,9 @@ export default function AIAgentsPage() {
           {/* Content Cards */}
           <div className="space-y-6">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.4 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               className="glass-button p-6 rounded-2xl"
             >
               <h3 className="text-lg font-semibold text-white mb-3">
@@ -72,9 +72,9 @@ export default function AIAgentsPage() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.5 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               className="glass-button p-6 rounded-2xl"
             >
               <h3 className="text-lg font-semibold text-white mb-3">
@@ -94,9 +94,9 @@ export default function AIAgentsPage() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.6 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               className="glass-button p-6 rounded-2xl"
             >
               <h3 className="text-lg font-semibold text-white mb-3">

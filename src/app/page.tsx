@@ -76,16 +76,16 @@ export default function TrueSpaceApp() {
 
       {/* Header */}
       <motion.header 
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         className="relative z-10 pb-6 px-4 flex-shrink-0"
       >
         <div className="text-center">
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
             className="mb-1 flex justify-center"
           >
             <Image
@@ -112,11 +112,10 @@ export default function TrueSpaceApp() {
           return (
             <Link key={index} href={item.href} className={`block ${index < menuItems.length - 1 ? 'mb-6' : ''}`}>
               <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ 
-                  duration: 0.4, 
-                  delay: index * 0.08 + 0.2,
+                  duration: 0.3,
                   ease: "easeOut"
                 }}
                 whileTap={{ 

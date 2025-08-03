@@ -11,9 +11,9 @@ export default function GraphicsAIPage() {
       <div className="w-full max-w-md mx-auto flex flex-col relative z-10 min-h-screen">
         {/* Back Button */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="px-6 pt-6 mb-8"
         >
           <Link href="/">
@@ -29,9 +29,9 @@ export default function GraphicsAIPage() {
 
         {/* Page Content */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="flex-1 px-6 pb-8"
         >
           {/* Page Title */}
@@ -50,10 +50,10 @@ export default function GraphicsAIPage() {
           {/* Content Cards */}
           <div className="space-y-6">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.4 }}
-              className="glass-button p-6 rounded-2xl"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className="glass-card p-6 rounded-2xl"
             >
               <h3 className="text-lg font-semibold text-white mb-3">
                 Генерация изображений с ИИ
@@ -72,31 +72,31 @@ export default function GraphicsAIPage() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.5 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               className="glass-button p-6 rounded-2xl"
             >
               <h3 className="text-lg font-semibold text-white mb-3">
-                Монтаж видео с ИИ
+                Создание логотипов с AI
               </h3>
               <p className="text-neutral-200 text-sm mb-4">
-                Автоматизация процесса монтажа и создание профессиональных видео с помощью ИИ-инструментов.
+                Научитесь создавать профессиональные логотипы с помощью искусственного интеллекта.
               </p>
               <div className="flex items-center justify-between">
                 <span className="text-purple-400 text-sm font-medium">
                   Средний уровень
                 </span>
                 <span className="text-neutral-300 text-xs">
-                  4 часа
+                  3 часа
                 </span>
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.6 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               className="glass-button p-6 rounded-2xl"
             >
               <h3 className="text-lg font-semibold text-white mb-3">

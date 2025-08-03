@@ -11,9 +11,9 @@ export default function NoCodePage() {
       <div className="w-full max-w-md mx-auto flex flex-col relative z-10 min-h-screen">
         {/* Back Button */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="px-6 pt-6 mb-8"
         >
           <Link href="/">
@@ -29,9 +29,9 @@ export default function NoCodePage() {
 
         {/* Page Content */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="flex-1 px-6 pb-8"
         >
           {/* Page Title */}
@@ -50,53 +50,53 @@ export default function NoCodePage() {
           {/* Content Cards */}
           <div className="space-y-6">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.4 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               className="glass-button p-6 rounded-2xl"
             >
               <h3 className="text-lg font-semibold text-white mb-3">
-                Основы No-code
+                Основы No-Code разработки
               </h3>
               <p className="text-neutral-200 text-sm mb-4">
-                Введение в мир разработки без программирования и обзор популярных платформ.
+                Изучите принципы создания приложений без программирования с помощью современных платформ.
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-emerald-400 text-sm font-medium">
+                <span className="text-green-400 text-sm font-medium">
                   Начальный уровень
                 </span>
                 <span className="text-neutral-300 text-xs">
-                  2 часа
+                  3 часа
                 </span>
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.5 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               className="glass-button p-6 rounded-2xl"
             >
               <h3 className="text-lg font-semibold text-white mb-3">
                 Создание веб-приложений
               </h3>
               <p className="text-neutral-200 text-sm mb-4">
-                Практическое создание полноценных веб-приложений с помощью Bubble, Webflow и других платформ.
+                Практический курс по созданию полноценных веб-приложений с помощью Bubble и Webflow.
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-emerald-400 text-sm font-medium">
+                <span className="text-green-400 text-sm font-medium">
                   Средний уровень
                 </span>
                 <span className="text-neutral-300 text-xs">
-                  6 часов
+                  5 часов
                 </span>
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.6 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               className="glass-button p-6 rounded-2xl"
             >
               <h3 className="text-lg font-semibold text-white mb-3">
