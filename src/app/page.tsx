@@ -117,12 +117,9 @@ export default function TrueSpaceApp() {
                 scale: 0.97,
                 transition: { duration: 0.1 }
               }}
-              onTouchStart={() => setActiveButton(index)}
-              onTouchEnd={() => setActiveButton(null)}
-              onClick={() => {
-                setActiveButton(index)
-                setTimeout(() => setActiveButton(null), 150)
-              }}
+              onPointerDown={() => setActiveButton(index)}
+              onPointerUp={() => setActiveButton(null)}
+              onPointerLeave={() => setActiveButton(null)}
               className={`
                 glass-button w-full p-4 rounded-xl
                 transition-all duration-300 ease-out
@@ -150,8 +147,10 @@ export default function TrueSpaceApp() {
                   `}
                 >
                   <IconComponent 
-                    className="w-5 h-5" 
-                    style={{ color: activeButton === index ? '#ffffff' : item.color }}
+                    className={`w-5 h-5 icon-stable ${
+                      activeButton === index ? 'text-white' : ''
+                    }`}
+                    style={{ color: activeButton === index ? undefined : item.color }}
                   />
                 </div>
                 <div className="flex-1 text-left">

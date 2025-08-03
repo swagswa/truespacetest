@@ -192,11 +192,35 @@ html, body {
     margin: 0.5rem 0 !important;
   }
   
-  /* Ensure icons are always visible */
+  /* Ensure icons are always visible and prevent flickering */
   svg {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
+    transform: translateZ(0); /* Force hardware acceleration */
+    backface-visibility: hidden; /* Prevent flickering */
+    -webkit-font-smoothing: antialiased; /* Smooth rendering */
+    will-change: auto; /* Optimize for changes */
+  }
+  
+  /* Prevent icon flickering during state changes */
+  .icon-stable {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: color;
+    transition: color 0.2s ease-out;
+  }
+  
+  /* Optimize button interactions for mobile */
+  .glass-button {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
   
   /* Reduce motion for better performance */
