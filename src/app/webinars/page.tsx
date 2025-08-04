@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowLeft, Video, Calendar, Users, Play } from 'lucide-react'
+import { ArrowLeft, Video } from 'lucide-react'
 import { AuroraBackground } from '@/components/ui/aurora-background'
 import { useSpring, useTrail, animated } from '@react-spring/web'
 

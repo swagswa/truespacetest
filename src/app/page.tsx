@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { useSpring, animated } from '@react-spring/web'
 import Image from 'next/image'
 import { AuroraBackground } from '@/components/ui/aurora-background'
 import { getOptimizedAnimationConfig, getPerformanceOptimizedSettings } from '@/lib/performance'
+import { isTelegramWebApp, initTelegramWebApp, hapticFeedback } from '@/lib/telegram'
 
 // Иконки
 import { BookOpen, Zap, Lightbulb, Video } from 'lucide-react'
@@ -45,10 +46,40 @@ const menuItems = [
 
 export default function TrueSpaceApp() {
   const [activeButton, setActiveButton] = useState<number | null>(null)
+  const [isInTelegram, setIsInTelegram] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   // Получаем оптимизированные настройки
-  const animationConfig = useMemo(() => getOptimizedAnimationConfig(), []);
-  const performanceSettings = useMemo(() => getPerformanceOptimizedSettings(), []);
+  const animationConfig = useMemo(() => {
+    if (typeof window === 'undefined') {
+      // На сервере используем базовые настройки
+      return { tension: 200, friction: 25 };
+    }
+    return getOptimizedAnimationConfig();
+  }, []);
+  
+  const performanceSettings = useMemo(() => {
+    if (typeof window === 'undefined') {
+      // На сервере используем базовые настройки
+      return { animationDuration: 300, reducedMotion: false };
+    }
+    return getPerformanceOptimizedSettings();
+  }, []);
+
+  // Инициализируем Telegram Web App
+  useEffect(() => {
+    const initApp = () => {
+      setMounted(true);
+      const isTg = isTelegramWebApp();
+      setIsInTelegram(isTg);
+      
+      if (isTg) {
+        initTelegramWebApp();
+      }
+    };
+
+    initApp();
+  }, []);
 
   // Оптимизированные анимации с уменьшенной сложностью для мобильных
   const headerSpring = useSpring({
@@ -69,17 +100,25 @@ export default function TrueSpaceApp() {
   const handleButtonClick = useCallback((index: number, href: string) => {
     setActiveButton(index)
     
+    // Добавляем тактильную обратную связь в Telegram
+    if (isInTelegram) {
+      hapticFeedback('impact', 'light');
+    }
+    
     // Добавляем небольшую задержку для анимации
     setTimeout(() => {
       window.location.href = href
     }, performanceSettings.animationDuration)
-  }, [performanceSettings.animationDuration])
+  }, [performanceSettings.animationDuration, isInTelegram])
 
   return (
-    <main className="min-h-screen bg-black text-white relative">
+    <main className={`min-h-screen bg-black text-white relative ${mounted && isInTelegram ? 'tg-viewport' : ''}`}>
       <AuroraBackground>
         <div className="relative z-10 min-h-screen flex flex-col">
-          <div className="w-full max-w-sm mx-auto flex flex-col relative z-10 py-8 pb-32">
+          <div className="w-full max-w-sm mx-auto flex flex-col relative z-10 py-8 pb-32" style={{
+            minHeight: mounted && isInTelegram ? '100vh' : 'auto',
+            overflow: mounted && isInTelegram ? 'visible' : 'auto'
+          }}>
           <animated.header 
             style={headerSpring}
             className="relative z-10 pb-6 px-4 flex-shrink-0"

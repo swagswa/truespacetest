@@ -1,5 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
+import { isTelegramWebApp } from "@/lib/telegram";
 import React, { ReactNode, memo, useEffect, useState } from "react";
 
 interface AuroraBackgroundProps extends React.HTMLProps<HTMLDivElement> {
@@ -13,6 +14,14 @@ const AuroraBackground = ({
   showRadialGradient = true,
   ...props
 }: AuroraBackgroundProps) => {
+  const [isInTelegram, setIsInTelegram] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    // Проверяем, запущено ли приложение в Telegram Web App
+    setIsInTelegram(isTelegramWebApp());
+  }, []);
 
   return (
     <main>
@@ -24,7 +33,9 @@ const AuroraBackground = ({
         style={{
           transform: 'translateZ(0)',
           backfaceVisibility: 'hidden',
-          contain: 'layout style paint'
+          contain: 'layout style paint',
+          overflow: mounted && isInTelegram ? 'visible' : 'auto',
+          height: mounted && isInTelegram ? '100%' : 'auto'
         }}
         {...props}
       >

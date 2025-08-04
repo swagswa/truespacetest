@@ -182,10 +182,20 @@
   }
   html {
     background-color: #000000 !important;
+    /* Специальные настройки для Telegram Web App */
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
   body {
     background-color: #000000 !important;
     color: #ffffff !important;
+    /* Обеспечиваем корректный скролл в Telegram Web App */
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
   }
   
   /* Prevent icon flickering globally */
@@ -194,6 +204,15 @@
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     will-change: auto;
+  }
+  
+  /* Специальные стили для Telegram Web App */
+  .tg-viewport {
+    height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
   }
 }
 
@@ -211,6 +230,8 @@
 html {
   height: 100%;
   height: -webkit-fill-available;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -219,7 +240,8 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  touch-action: manipulation;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
 }
 
 /* Основной контейнер */
@@ -392,6 +414,8 @@ main {
     overflow-x: hidden !important; /* Отключаем только горизонтальный скролл */
     overflow-y: auto !important; /* Включаем вертикальный скролл */
     position: relative;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
   }
   
   /* Улучшенный скролл для всех элементов */

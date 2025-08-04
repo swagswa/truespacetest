@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowLeft, BookOpen, Lightbulb, Users, Target, GraduationCap } from 'lucide-react'
+import { ArrowLeft, BookOpen, Lightbulb, Target, GraduationCap } from 'lucide-react'
 import { AuroraBackground } from '@/components/ui/aurora-background'
 import { useSpring, animated, useTrail } from '@react-spring/web'
 
