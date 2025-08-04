@@ -76,8 +76,10 @@ export default function TrueSpaceApp() {
   }, [performanceSettings.animationDuration])
 
   return (
-    <AuroraBackground>
-      <div className="w-full max-w-sm mx-auto flex flex-col relative z-10 py-8 pb-32">
+    <main className="min-h-screen bg-black text-white relative">
+      <AuroraBackground>
+        <div className="relative z-10 min-h-screen flex flex-col">
+          <div className="w-full max-w-sm mx-auto flex flex-col relative z-10 py-8 pb-32">
           <animated.header 
             style={headerSpring}
             className="relative z-10 pb-6 px-4 flex-shrink-0"
@@ -136,11 +138,9 @@ export default function TrueSpaceApp() {
               ))}
             </div>
           </animated.div>
-
-          {/* Дополнительное пространство для скролла */}
-          <div className="h-32"></div>
-
-      </div>
-    </AuroraBackground>
+          </div>
+        </div>
+      </AuroraBackground>
+    </main>
   )
 }

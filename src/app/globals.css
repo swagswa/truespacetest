@@ -207,14 +207,45 @@
   display: none;  /* Chrome, Safari and Opera */
 }
 
-/* Mobile scroll improvements */
-html, body {
+/* Правильная настройка высоты для мобильных устройств */
+html {
   height: 100%;
-  overflow: hidden; /* Отключаем скролл на html/body */
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overflow-x: hidden;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
-  scroll-behavior: smooth;
-  overscroll-behavior: contain;
+  touch-action: manipulation;
+}
+
+/* Основной контейнер */
+main {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Дополнительные правила для мобильного скролла */
+@media screen and (max-width: 768px) {
+  html {
+    height: -webkit-fill-available;
+  }
+  
+  body {
+    min-height: -webkit-fill-available;
+    overscroll-behavior: none;
+  }
+  
+  main {
+    min-height: -webkit-fill-available;
+    touch-action: pan-y;
+  }
 }
 
 /* Improve touch scrolling on mobile */
@@ -358,7 +389,8 @@ html, body {
   
   /* Предотвращение горизонтального скролла */
   body {
-    overflow: hidden !important; /* Полностью отключаем скролл на body */
+    overflow-x: hidden !important; /* Отключаем только горизонтальный скролл */
+    overflow-y: auto !important; /* Включаем вертикальный скролл */
     position: relative;
   }
   
