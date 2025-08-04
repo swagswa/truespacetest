@@ -55,16 +55,36 @@ export default function TrueSpaceApp() {
       // На сервере используем базовые настройки
       return { tension: 200, friction: 25 };
     }
+    
+    // Специальные настройки для Telegram Web App
+    if (isInTelegram) {
+      return { 
+        tension: 300, 
+        friction: 30,
+        mass: 0.8,
+        clamp: true // Предотвращает overshooting
+      };
+    }
+    
     return getOptimizedAnimationConfig();
-  }, []);
+  }, [isInTelegram]);
   
   const performanceSettings = useMemo(() => {
     if (typeof window === 'undefined') {
       // На сервере используем базовые настройки
       return { animationDuration: 300, reducedMotion: false };
     }
+    
+    // Более быстрые анимации для Telegram
+    if (isInTelegram) {
+      return { 
+        animationDuration: 150, 
+        reducedMotion: false 
+      };
+    }
+    
     return getPerformanceOptimizedSettings();
-  }, []);
+  }, [isInTelegram]);
 
   // Инициализируем Telegram Web App
   useEffect(() => {
@@ -151,13 +171,17 @@ export default function TrueSpaceApp() {
                 <button
                   key={index}
                   onClick={() => handleButtonClick(index, item.href)}
-                  className={`glass-button w-full p-4 rounded-xl transition-all duration-${performanceSettings.animationDuration} transform hover:scale-105 active:scale-95 ${
+                  className={`glass-button w-full p-4 rounded-xl transition-all transform hover:scale-105 active:scale-95 ${
                     activeButton === index ? 'scale-95 opacity-80' : ''
-                  }`}
+                  } ${isInTelegram ? 'telegram-button' : ''}`}
                   style={{
                     willChange: 'transform, opacity',
                     backfaceVisibility: 'hidden',
-                    perspective: '1000px'
+                    perspective: '1000px',
+                    transitionDuration: `${performanceSettings.animationDuration}ms`,
+                    transform: 'translateZ(0)', // GPU acceleration
+                    WebkitBackfaceVisibility: 'hidden',
+                    WebkitTransform: 'translateZ(0)'
                   }}
                 >
                   <div className="flex items-center space-x-3">
