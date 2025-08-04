@@ -7,7 +7,7 @@ const token = '8446511797:AAGbqyRF_PHS5MYoCD3ItwZeSg1mbYMeU10';
 const bot = new TelegramBot(token, { polling: true });
 
 // URL веб-приложения
-const webAppUrl = 'https://truespacetest.vercel.app';
+const webAppUrl = 'https://truespace.vercel.app/';
 
 console.log('🤖 TrueSpace Bot запущен!');
 
@@ -68,6 +68,42 @@ bot.onText(/\/app/, (msg) => {
     };
 
     bot.sendMessage(chatId, '🌟 Откройте TrueSpace прямо в Telegram!', options);
+});
+
+// Обработчик команды /webapp - прямая ссылка на веб-приложение
+bot.onText(/\/webapp/, (msg) => {
+    const chatId = msg.chat.id;
+    
+    const webappMessage = `
+🌐 Веб-приложение TrueSpace
+
+Откройте TrueSpace в браузере или прямо в Telegram:
+
+🔗 Прямая ссылка: ${webAppUrl}
+
+Или используйте кнопку ниже для открытия в Telegram:
+    `;
+    
+    const options = {
+        reply_markup: {
+            inline_keyboard: [
+                [
+                    {
+                        text: '🚀 Открыть в Telegram',
+                        web_app: { url: webAppUrl }
+                    }
+                ],
+                [
+                    {
+                        text: '🌐 Открыть в браузере',
+                        url: webAppUrl
+                    }
+                ]
+            ]
+        }
+    };
+
+    bot.sendMessage(chatId, webappMessage, options);
 });
 
 // Обработчик callback запросов
@@ -132,6 +168,7 @@ TrueSpace - это инновационная образовательная п�
 Команды бота:
 /start - Главное меню
 /app - Быстрый запуск приложения
+/webapp - Ссылка на веб-приложение
 /help - Эта справка
 
 Нужна дополнительная помощь? Свяжитесь с поддержкой!
