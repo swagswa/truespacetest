@@ -10,23 +10,23 @@ export default function AIAgentsPage() {
   const backButtonSpring = useSpring({
     from: { opacity: 0, transform: 'translateX(-20px)' },
     to: { opacity: 1, transform: 'translateX(0px)' },
-    config: { tension: 120, friction: 80 }
+    config: { tension: 280, friction: 60 }
   })
 
   // Анимация для заголовка
   const titleSpring = useSpring({
     from: { opacity: 0, transform: 'translateY(-30px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
-    config: { tension: 120, friction: 80 },
-    delay: 400
+    config: { tension: 280, friction: 60 },
+    delay: 200
   })
 
   // Анимация для иконки
   const iconSpring = useSpring({
     from: { opacity: 0, transform: 'scale(0.5) rotate(-180deg)' },
     to: { opacity: 1, transform: 'scale(1) rotate(0deg)' },
-    config: { tension: 150, friction: 70 },
-    delay: 800
+    config: { tension: 300, friction: 40 },
+    delay: 400
   })
 
   // Карточки контента для каскадной анимации
@@ -55,8 +55,8 @@ export default function AIAgentsPage() {
   const trail = useTrail(contentCards.length, {
     from: { opacity: 0, transform: 'translateY(30px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
-    config: { tension: 120, friction: 80 },
-    delay: 1200
+    config: { tension: 280, friction: 60 },
+    delay: 600
   })
   return (
     <AuroraBackground>

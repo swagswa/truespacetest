@@ -13,25 +13,12 @@ const AuroraBackground = ({
   showRadialGradient = true,
   ...props
 }: AuroraBackgroundProps) => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    // Определяем мобильное устройство для оптимизации
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   return (
     <main>
       <div
         className={cn(
-          "relative flex flex-col min-h-[100vh] items-center justify-start bg-zinc-50 dark:bg-zinc-900 text-slate-950 transition-bg",
+          "relative flex flex-col min-h-screen items-center justify-start bg-zinc-50 dark:bg-zinc-900 text-slate-950 transition-bg",
           className
         )}
         style={{
@@ -57,18 +44,16 @@ const AuroraBackground = ({
             [background-image:var(--white-gradient),var(--aurora)] 
             dark:[background-image:var(--dark-gradient),var(--aurora)] 
             [background-position:50%_50%,50%_50%] 
+            [background-size:300%,_200%] 
             pointer-events-none 
-            absolute -inset-[10px] aurora-optimized`,
-              
-              // Адаптивные стили для мобильных устройств
-              isMobile 
-                ? `[background-size:200%,_150%] filter blur-[5px] opacity-30 after:[background-size:150%,_100%]` 
-                : `[background-size:300%,_200%] filter blur-[10px] opacity-50 after:[background-size:200%,_100%]`,
-              
-              `filter invert dark:invert-0 
-              after:content-[""] after:absolute after:inset-0 after:[background-image:var(--white-gradient),var(--aurora)] 
-              after:dark:[background-image:var(--dark-gradient),var(--aurora)] 
-              after:animate-aurora after:mix-blend-difference`,
+            absolute -inset-[10px] aurora-optimized
+            filter blur-[10px] opacity-50 invert dark:invert-0 
+            after:content-[""] after:absolute after:inset-0 after:[background-image:var(--white-gradient),var(--aurora)] 
+            after:dark:[background-image:var(--dark-gradient),var(--aurora)] 
+            after:[background-size:200%,_100%]
+            after:animate-aurora after:mix-blend-difference
+            sm:[background-size:300%,_200%] sm:blur-[10px] sm:opacity-50
+            md:[background-size:300%,_200%] md:blur-[10px] md:opacity-50`,
 
               showRadialGradient &&
                 `[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,var(--transparent)_70%)]`

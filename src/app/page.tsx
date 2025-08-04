@@ -54,15 +54,15 @@ export default function TrueSpaceApp() {
   const headerSpring = useSpring({
     from: { opacity: 0, transform: 'translateY(-20px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
-    config: { tension: 120, friction: 80 },
-    delay: 200
+    config: animationConfig,
+    delay: 100
   })
 
   const menuSpring = useSpring({
     from: { opacity: 0, transform: 'translateY(20px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
-    config: { tension: 120, friction: 80 },
-    delay: 600
+    config: animationConfig,
+    delay: 300
   })
 
   // Мемоизированный обработчик клика
@@ -77,7 +77,7 @@ export default function TrueSpaceApp() {
 
   return (
     <AuroraBackground>
-      <div className="w-full max-w-sm mx-auto flex flex-col relative z-10 min-h-screen justify-center">
+      <div className="w-full max-w-sm mx-auto flex flex-col relative z-10 py-8 pb-32">
           <animated.header 
             style={headerSpring}
             className="relative z-10 pb-6 px-4 flex-shrink-0"
@@ -136,7 +136,11 @@ export default function TrueSpaceApp() {
               ))}
             </div>
           </animated.div>
-        </div>
+
+          {/* Дополнительное пространство для скролла */}
+          <div className="h-32"></div>
+
+      </div>
     </AuroraBackground>
   )
 }

@@ -10,21 +10,21 @@ export default function WebinarsPage() {
   const backButtonSpring = useSpring({
     from: { opacity: 0, transform: 'translateX(-20px)' },
     to: { opacity: 1, transform: 'translateX(0px)' },
-    config: { tension: 120, friction: 80 }
+    config: { tension: 280, friction: 60 }
   })
 
   const titleSpring = useSpring({
     from: { opacity: 0, transform: 'translateY(30px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
-    delay: 400,
-    config: { tension: 120, friction: 80 }
+    delay: 200,
+    config: { tension: 280, friction: 60 }
   })
 
   const iconSpring = useSpring({
     from: { opacity: 0, transform: 'scale(0.8) rotate(-10deg)' },
     to: { opacity: 1, transform: 'scale(1) rotate(0deg)' },
-    delay: 800,
-    config: { tension: 150, friction: 70 }
+    delay: 400,
+    config: { tension: 300, friction: 40 }
   })
 
   // Данные для карточек
@@ -56,8 +56,8 @@ export default function WebinarsPage() {
   const trail = useTrail(contentCards.length, {
     from: { opacity: 0, transform: 'translateY(40px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
-    delay: 1200,
-    config: { tension: 120, friction: 80 }
+    delay: 600,
+    config: { tension: 280, friction: 60 }
   })
   return (
       <AuroraBackground>
