@@ -4,7 +4,7 @@ import { useState, useMemo, useCallback } from 'react'
 import { useSpring, animated } from '@react-spring/web'
 import Image from 'next/image'
 import { AuroraBackground } from '@/components/ui/aurora-background'
-import { getOptimizedAnimationConfig, getPerformanceOptimizedSettings } from '@/lib/performance'
+
 
 // Иконки
 import { BookOpen, Users, Zap, Lightbulb, Video } from 'lucide-react'
@@ -46,9 +46,19 @@ const menuItems = [
 export default function ClientTrueSpaceApp() {
   const [activeButton, setActiveButton] = useState<number | null>(null)
 
-  // Получаем оптимизированные настройки
-  const animationConfig = useMemo(() => getOptimizedAnimationConfig(), []);
-  const performanceSettings = useMemo(() => getPerformanceOptimizedSettings(), []);
+  // Настройки анимации и производительности
+  const animationConfig = {
+    tension: 300,
+    friction: 30,
+    mass: 1,
+    precision: 0.01,
+    velocity: 0.01,
+    restVelocity: 0.01,
+    restDisplacement: 0.01,
+  };
+  const performanceSettings = {
+    animationDuration: 300,
+  };
 
   // Оптимизированные анимации с уменьшенной сложностью для мобильных
   const headerSpring = useSpring({

@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
+  output: 'export',
+  
+  // Разрешенные домены для разработки
+  allowedDevOrigins: ['https://b25e06e779a1.ngrok-free.app'],
   
   // Оптимизация изображений
   images: {
@@ -53,12 +56,17 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // Перенаправления для PWA
+  // Перенаправления для PWA и API проксирование
   async rewrites() {
     return [
       {
         source: '/manifest.json',
         destination: '/api/manifest',
+      },
+      // Проксирование API запросов к бэкенду
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:4001/:path*',
       },
     ];
   },

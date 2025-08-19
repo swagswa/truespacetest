@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* Оптимизированная анимация Aurora */
 @keyframes aurora {
@@ -30,7 +32,7 @@
 }
 
 /* Aurora animation utility - оптимизированная версия */
-@utility animate-aurora {
+.animate-aurora {
   animation: aurora 60s linear infinite;
   transform: translateZ(0); /* Включаем аппаратное ускорение */
   backface-visibility: hidden; /* Оптимизация для GPU */
@@ -52,9 +54,36 @@
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  
+  /* Оптимизации для производительности */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, box-shadow;
+  contain: layout style paint;
+  
+  /* Оптимизация для мобильных */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+/* Стеклянный контейнер без hover эффектов */
+.glass-container {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   
   /* Оптимизации для производительности */
@@ -72,21 +101,7 @@
   touch-action: manipulation;
 }
 
-.glass-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-
-.glass-button:active {
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transform: translateZ(0) scale(0.98); /* Легкий эффект нажатия */
-}
+/* Hover и active эффекты отключены из-за pointer-events: none */
 
 :root {
   --color-1: 0 100% 63%;
@@ -132,47 +147,47 @@
 
   --color-*: initial;
   --color-background: oklch(0% 0 0);
-  --color-foreground: oklch(98% 0 0);
-  --color-card: oklch(0% 0 0);
-  --color-card-foreground: oklch(98% 0 0);
-  --color-popover: oklch(0% 0 0);
-  --color-popover-foreground: oklch(98% 0 0);
-  --color-primary: oklch(98% 0 0);
-  --color-primary-foreground: oklch(9% 0 0);
-  --color-secondary: oklch(15% 0 0);
-  --color-secondary-foreground: oklch(98% 0 0);
-  --color-muted: oklch(15% 0 0);
-  --color-muted-foreground: oklch(64% 0 0);
-  --color-accent: oklch(15% 0 0);
-  --color-accent-foreground: oklch(98% 0 0);
+  --color-foreground: oklch(100% 0 0);
+  --color-card: oklch(5% 0 0);
+  --color-card-foreground: oklch(100% 0 0);
+  --color-popover: oklch(5% 0 0);
+  --color-popover-foreground: oklch(100% 0 0);
+  --color-primary: oklch(100% 0 0);
+  --color-primary-foreground: oklch(0% 0 0);
+  --color-secondary: oklch(10% 0 0);
+  --color-secondary-foreground: oklch(100% 0 0);
+  --color-muted: oklch(10% 0 0);
+  --color-muted-foreground: oklch(80% 0 0);
+  --color-accent: oklch(20% 0 0);
+  --color-accent-foreground: oklch(100% 0 0);
   --color-destructive: oklch(63% 0.18 29);
-  --color-destructive-foreground: oklch(98% 0 0);
-  --color-border: oklch(15% 0 0);
-  --color-input: oklch(15% 0 0);
-  --color-ring: oklch(83% 0 0);
+  --color-destructive-foreground: oklch(100% 0 0);
+  --color-border: oklch(20% 0 0);
+  --color-input: oklch(10% 0 0);
+  --color-ring: oklch(90% 0 0);
 }
 
 @media (prefers-color-scheme: dark) {
-  @theme {
-    --color-background: oklch(4% 0 0);
-    --color-foreground: oklch(98% 0 0);
-    --color-card: oklch(4% 0 0);
-    --color-card-foreground: oklch(98% 0 0);
-    --color-popover: oklch(4% 0 0);
-    --color-popover-foreground: oklch(98% 0 0);
-    --color-primary: oklch(98% 0 0);
-    --color-primary-foreground: oklch(9% 0 0);
-    --color-secondary: oklch(15% 0 0);
-    --color-secondary-foreground: oklch(98% 0 0);
-    --color-muted: oklch(15% 0 0);
-    --color-muted-foreground: oklch(64% 0 0);
-    --color-accent: oklch(15% 0 0);
-    --color-accent-foreground: oklch(98% 0 0);
-    --color-destructive: oklch(31% 0.18 29);
-    --color-destructive-foreground: oklch(98% 0 0);
-    --color-border: oklch(15% 0 0);
-    --color-input: oklch(15% 0 0);
-    --color-ring: oklch(83% 0 0);
+  :root {
+    --color-background: oklch(0% 0 0);
+    --color-foreground: oklch(100% 0 0);
+    --color-card: oklch(5% 0 0);
+    --color-card-foreground: oklch(100% 0 0);
+    --color-popover: oklch(5% 0 0);
+    --color-popover-foreground: oklch(100% 0 0);
+    --color-primary: oklch(100% 0 0);
+    --color-primary-foreground: oklch(0% 0 0);
+    --color-secondary: oklch(10% 0 0);
+    --color-secondary-foreground: oklch(100% 0 0);
+    --color-muted: oklch(10% 0 0);
+    --color-muted-foreground: oklch(80% 0 0);
+    --color-accent: oklch(20% 0 0);
+    --color-accent-foreground: oklch(100% 0 0);
+    --color-destructive: oklch(50% 0.18 29);
+    --color-destructive-foreground: oklch(100% 0 0);
+    --color-border: oklch(20% 0 0);
+    --color-input: oklch(10% 0 0);
+    --color-ring: oklch(90% 0 0);
   }
 }
 
@@ -189,7 +204,7 @@
   }
   body {
     background-color: #000000 !important;
-    color: #ffffff !important;
+    color: #ffffff;
     /* Обеспечиваем корректный скролл в Telegram Web App */
     height: 100%;
     overflow: auto;
@@ -399,7 +414,7 @@ main {
    .telegram-web-app {
      /* Улучшенный momentum scrolling */
      -webkit-overflow-scrolling: touch !important;
-     overflow-scrolling: touch !important;
+     -webkit-overflow-scrolling: touch !important;
      
      /* Предотвращение bounce эффекта */
      overscroll-behavior: contain !important;
@@ -546,6 +561,36 @@ main {
     user-select: none;
     touch-action: manipulation;
   }
+}
+
+/* Smooth entry animation styles */
+.animate-on-mount {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.animate-in {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+[data-animate] {
+  opacity: 0;
+}
+
+[data-animate="back"] {
+  transform: translateY(-16px);
+}
+
+[data-animate="title"] {
+  transform: translateY(24px);
+}
+
+[data-animate="option1"],
+[data-animate="option2"] {
+  transform: translateY(32px);
 }
 
 /* Specific optimizations for iPhone 12 Pro (390px width) */

@@ -2,45 +2,41 @@
 
 import { useState, useMemo, useCallback, useEffect } from 'react'
 import { useSpring, animated } from '@react-spring/web'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { AuroraBackground } from '@/components/ui/aurora-background'
-import { getOptimizedAnimationConfig, getPerformanceOptimizedSettings } from '@/lib/performance'
-import { isTelegramWebApp, initTelegramWebApp, hapticFeedback } from '@/lib/telegram'
+
+import { isTelegramWebApp, hapticFeedback } from '@/lib/telegram'
+import { apiClient, getTelegramId } from '@/lib/api'
 
 // Иконки
-import { BookOpen, Zap, Lightbulb, Video } from 'lucide-react'
+import { BookOpen, Zap, Lightbulb, Video, Heart, CheckCircle } from 'lucide-react'
 
-// Основные элементы меню для главной страницы
+// 4 направления обучения согласно ТЗ TrueBase Mini App
 const menuItems = [
   {
     title: 'AI Агенты',
     description: 'Создание и обучение ИИ-агентов',
-    icon: <Zap className="w-6 h-6 text-blue-400" />,
-    href: '/ai-agents'
+    icon: <Zap className="w-6 h-6 text-white" />,
+    href: '/direction/ai-agents/options'
   },
   {
     title: 'No-Code',
     description: 'Разработка без программирования',
-    icon: <Lightbulb className="w-6 h-6 text-green-400" />,
-    href: '/no-code'
-  },
-  {
-    title: 'Вебинары',
-    description: 'Онлайн-обучение и мастер-классы',
-    icon: <Video className="w-6 h-6 text-purple-400" />,
-    href: '/webinars'
-  },
-  {
-    title: 'Для начинающих',
-    description: 'Основы ИИ и машинного обучения',
-    icon: <BookOpen className="w-6 h-6 text-orange-400" />,
-    href: '/ai-beginners'
+    icon: <Lightbulb className="w-6 h-6 text-white" />,
+    href: '/direction/no-code/options'
   },
   {
     title: 'Графический ИИ',
     description: 'Создание изображений с помощью ИИ',
-    icon: <Zap className="w-6 h-6 text-cyan-400" />,
-    href: '/graphics-ai'
+    icon: <Video className="w-6 h-6 text-white" />,
+    href: '/direction/graphics-ai/options'
+  },
+  {
+    title: 'Для начинающих',
+    description: 'Основы ИИ и машинного обучения',
+    icon: <BookOpen className="w-6 h-6 text-white" />,
+    href: '/direction/beginners/options'
   }
 ]
 
@@ -48,58 +44,121 @@ export default function TrueSpaceApp() {
   const [activeButton, setActiveButton] = useState<number | null>(null)
   const [isInTelegram, setIsInTelegram] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const router = useRouter()
 
-  // Получаем оптимизированные настройки
-  const animationConfig = useMemo(() => {
-    if (typeof window === 'undefined') {
-      // На сервере используем базовые настройки
-      return { tension: 200, friction: 25 };
-    }
-    
-    // Специальные настройки для Telegram Web App
-    if (isInTelegram) {
-      return { 
-        tension: 300, 
-        friction: 30,
-        mass: 0.8,
-        clamp: true // Предотвращает overshooting
-      };
-    }
-    
-    return getOptimizedAnimationConfig();
-  }, [isInTelegram]);
-  
-  const performanceSettings = useMemo(() => {
-    if (typeof window === 'undefined') {
-      // На сервере используем базовые настройки
-      return { animationDuration: 300, reducedMotion: false };
-    }
-    
-    // Более быстрые анимации для Telegram
-    if (isInTelegram) {
-      return { 
-        animationDuration: 150, 
-        reducedMotion: false 
-      };
-    }
-    
-    return getPerformanceOptimizedSettings();
-  }, [isInTelegram]);
+  // Настройки производительности
+  const performanceSettings = {
+    animationDuration: 300,
+    blurAmount: 5,
+    particleCount: 10,
+    updateInterval: 60,
+    enableComplexAnimations: false,
+  };
 
-  // Инициализируем Telegram Web App
+  // Конфигурация анимации
+  const animationConfig = {
+    tension: 300,
+    friction: 30,
+    mass: 1,
+    precision: 0.01,
+    velocity: 0.01,
+    restVelocity: 0.01,
+    restDisplacement: 0.01,
+  };
+
+  // Инициализируем состояние приложения
   useEffect(() => {
-    const initApp = () => {
+    const initApp = async () => {
       setMounted(true);
       const isTg = isTelegramWebApp();
       setIsInTelegram(isTg);
       
-      if (isTg) {
-        initTelegramWebApp();
-      }
+      // Telegram WebApp initialization is now handled by TelegramWebApp component
+
+      // Автоматическая регистрация/инициализация пользователя
+      await initializeUser();
     };
 
     initApp();
   }, []);
+
+  // Функция для автоматической инициализации пользователя
+  const initializeUser = async () => {
+    try {
+      // Ждем немного, чтобы Telegram WebApp успел инициализироваться
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      console.log('=== НАЧАЛО ИНИЦИАЛИЗАЦИИ ПОЛЬЗОВАТЕЛЯ ===');
+      console.log('Telegram объект:', typeof window !== 'undefined' ? window.Telegram : 'undefined');
+      
+      const telegramId = getTelegramId();
+      if (!telegramId) {
+        console.log('Telegram ID не найден, пропускаем инициализацию пользователя');
+        return;
+      }
+
+      console.log('Инициализация пользователя с Telegram ID:', telegramId);
+      
+      // Проверяем, существует ли пользователь
+      try {
+        const existingUser = await apiClient.getUser(telegramId);
+        console.log('Пользователь уже существует:', existingUser);
+      } catch (error: unknown) {
+        // Если пользователь не найден (404), создаем нового
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        const errorStatus = (error as { status?: number })?.status;
+        if (errorMessage?.includes('404') || errorStatus === 404) {
+          console.log('Пользователь не найден, создаем нового...');
+          
+          // Получаем данные пользователя из Telegram WebApp
+          let userData: {
+            telegramId: string;
+            firstName?: string;
+            lastName?: string;
+            username?: string;
+          } = {
+            telegramId: telegramId
+          };
+
+          // Пробуем получить данные из initDataUnsafe
+          if (typeof window !== 'undefined' && window.Telegram?.WebApp?.initDataUnsafe?.user) {
+            const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
+            userData = {
+              telegramId: telegramId,
+              username: tgUser.username,
+              firstName: tgUser.first_name,
+              lastName: tgUser.last_name
+            };
+            console.log('Данные получены из initDataUnsafe:', tgUser);
+          }
+          // Пробуем получить данные из initDataUnsafe как fallback
+          else if (typeof window !== 'undefined' && window.Telegram?.WebApp?.initDataUnsafe?.user) {
+            try {
+              const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
+              userData = {
+                telegramId: telegramId,
+                username: tgUser.username,
+                firstName: tgUser.first_name,
+                lastName: tgUser.last_name
+              };
+              console.log('Данные получены из initData:', tgUser);
+            } catch (parseError) {
+              console.error('Ошибка парсинга initData:', parseError);
+            }
+          }
+
+          console.log('Создание пользователя с данными:', userData);
+          const newUser = await apiClient.createUser(userData);
+          console.log('Новый пользователь создан:', newUser);
+        } else {
+          console.error('Ошибка при получении пользователя:', error);
+        }
+      }
+      console.log('=== КОНЕЦ ИНИЦИАЛИЗАЦИИ ПОЛЬЗОВАТЕЛЯ ===');
+    } catch (error) {
+      console.error('Ошибка инициализации пользователя:', error);
+    }
+  };
 
   // Оптимизированные анимации с уменьшенной сложностью для мобильных
   const headerSpring = useSpring({
@@ -145,19 +204,34 @@ export default function TrueSpaceApp() {
           >
             <div className="text-center">
               <div className="mb-1 flex justify-center">
-                <Image
-                  src="/Logo.svg"
-                  alt="TrueSpace Logo"
-                  width={80}
-                  height={80}
-                  className="filter invert drop-shadow-lg"
-                />
+                {mounted ? (
+                  <button
+                    onClick={() => router.push('/admin')}
+                    className="transition-transform hover:scale-110 active:scale-95 duration-200"
+                  >
+                    <Image
+                      src="/Logo.svg"
+                      alt="TrueSpace Logo"
+                      width={80}
+                      height={80}
+                      className="filter invert drop-shadow-lg"
+                    />
+                  </button>
+                ) : (
+                  <Image
+                    src="/Logo.svg"
+                    alt="TrueSpace Logo"
+                    width={80}
+                    height={80}
+                    className="filter invert drop-shadow-lg"
+                  />
+                )}
               </div>
               <h1 className="text-2xl sm:text-3xl font-bold text-white text-center tracking-tight drop-shadow-lg">
-                TrueSpace
+                TrueBase
               </h1>
               <p className="text-neutral-200 mt-1 font-medium text-sm sm:text-base">
-                Образовательная платформа
+                Найди свой урок
               </p>
             </div>
           </animated.header>
@@ -166,23 +240,41 @@ export default function TrueSpaceApp() {
             style={menuSpring}
             className="flex-1 px-4 pb-6 relative z-10"
           >
+            {/* Quick Access Buttons */}
+            <div className="mb-6">
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                   onClick={() => handleButtonClick(-1, '/favorites')}
+                   className="glass-button p-3 rounded-2xl text-center transition-all duration-300 hover:scale-105"
+                 >
+                   <Heart 
+                     className="w-4 h-4 mx-auto mb-1" 
+                     style={{ color: '#ef4444', fill: '#ef4444' }}
+                   />
+                   <span className="text-white text-sm font-medium">Избранное</span>
+                 </button>
+                 
+                 <button
+                   onClick={() => handleButtonClick(-2, '/completed')}
+                   className="glass-button p-3 rounded-2xl text-center transition-all duration-300 hover:scale-105"
+                 >
+                   <CheckCircle 
+                     className="w-4 h-4 mx-auto mb-1" 
+                     style={{ color: '#10b981', stroke: '#10b981', fill: 'none' }}
+                   />
+                   <span className="text-white text-sm font-medium">Пройденные</span>
+                 </button>
+              </div>
+            </div>
+
             <div className="space-y-6">
               {menuItems.map((item, index) => (
                 <button
                   key={index}
                   onClick={() => handleButtonClick(index, item.href)}
-                  className={`glass-button w-full p-4 rounded-xl transition-all transform hover:scale-105 active:scale-95 ${
+                  className={`glass-button w-full p-4 rounded-2xl transition-all transform hover:scale-105 active:scale-95 ${
                     activeButton === index ? 'scale-95 opacity-80' : ''
                   } ${isInTelegram ? 'telegram-button' : ''}`}
-                  style={{
-                    willChange: 'transform, opacity',
-                    backfaceVisibility: 'hidden',
-                    perspective: '1000px',
-                    transitionDuration: `${performanceSettings.animationDuration}ms`,
-                    transform: 'translateZ(0)', // GPU acceleration
-                    WebkitBackfaceVisibility: 'hidden',
-                    WebkitTransform: 'translateZ(0)'
-                  }}
                 >
                   <div className="flex items-center space-x-3">
                     <div className="flex-shrink-0">

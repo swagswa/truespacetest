@@ -30,8 +30,7 @@ interface WorkspaceContextValue<T extends Workspace> {
 	getWorkspaceName: (workspace: T) => string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const WorkspaceContext = React.createContext<WorkspaceContextValue<any> | null>(
+const WorkspaceContext = React.createContext<WorkspaceContextValue<Workspace> | null>(
 	null,
 );
 
